@@ -4,47 +4,42 @@ import java.util.Stack;
 // 3. Space Complexity :- O(n)
 // 4. Attention :- Command to convert String into Integer is Integer.parseInt(variablename)
 // 5. Company Tags :- Apple, Microsoft, Flipkart, Amazon, LinkedIn
-public class Q6_150_EvaluateReversePolishNotation {
-    class Solution {
-        int Operate(int a, int b, String token) {
-            if (token.equals("+")) {
-                return a + b;
-            }
-            if (token.equals("-")) {
-                return a - b;
-            }
-            if (token.equals("*")) {
-                return a * b;
-            }
-            if (token.equals("/")) {
-                return a / b;
-            }
-            return -1;
+class Solution {
+    int operate(int a, int b,String token){
+        if(token.equals("+")){
+            return a + b;
         }
-
-        public int evalRPN(String[] tokens) {
-            Stack<Integer> st = new Stack<>();
-            for (String token : tokens) {
-                if (token.equals("+") || token.equals("-") || token.equals("*") || token.equals("/")) {
-                    // Top 2 Elements ko pop karke operate karlo
-                    // Then push in stack the result
-
-
-                    //Put First b then a because when it is stored in stack it is stored in reverse order it will affect when in division
-                    int b = st.peek(); //b will be second operand
-                    st.pop();
-
-                    int a = st.peek();// a will be first operand
-                    st.pop();
-
-                    int result = Operate(a, b, token);
-
-                    st.push(result);
-                } else {
-                    st.push(Integer.parseInt(token)); //Here we are converting String into Integer because we want to perom ALU Operations
-                }
-            }
-            return st.peek();
+        if(token.equals("-")){
+            return a - b;
         }
+        if(token.equals("*")){
+            return a * b;
+        }
+        if(token.equals("/")){
+            return a/b;
+        }
+        return -1;
+    }
+
+    public int evalRPN(String[] tokens) {
+        Stack<Integer> st = new Stack<>();
+        for(String token: tokens){
+            if(token.equals("+") || token.equals("-") || token.equals("*") || token.equals("/")){
+                //Top first 2 Elements in it and perfom the operations
+
+                int b = st.peek();
+                st.pop();
+
+                int a = st.peek();
+                st.pop();
+
+                int result = operate(a,b,token);
+
+                st.push(result);
+            }else{
+                st.push(Integer.parseInt(token));
+            }
+        }
+        return st.peek();
     }
 }
